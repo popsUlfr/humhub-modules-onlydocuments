@@ -33,6 +33,7 @@ class Events extends \yii\base\Object
         if ($module->getDocumentType($event->sender->file) !== null) {
             if ($collection->type == FileHandlerCollection::TYPE_EDIT) {
                 $collection->register(new filehandler\EditFileHandler());
+                $collection->register(new filehandler\ShareFileHandler());
             } elseif ($collection->type === FileHandlerCollection::TYPE_VIEW) {
                 $collection->register(new filehandler\ViewFileHandler());
             }

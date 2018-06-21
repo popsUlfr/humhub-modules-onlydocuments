@@ -29,10 +29,12 @@ class ViewFileHandler extends BaseFileHandler
     {
         return [
             'label' => Yii::t('FileModule.base', 'View document'),
-            'data-action-url' => Url::to(['/onlydocuments/open', 'guid' => $this->file->guid, 'mode' => Module::OPEN_MODE_VIEW]),
-            'data-action-click' => 'ui.modal.load',
-            'data-modal-id' => 'onlydocuments-modal',
-            'data-modal-close' => ''
+            'href' => Url::to(['/onlydocuments/open',
+                'guid' => $this->file->guid,
+                'mode' => Module::OPEN_MODE_VIEW,
+                'fullscreen' => true,
+                'mobile' => (new \Mobile_Detect())->isMobile()]),
+            'target' => '_blank',
         ];
     }
 

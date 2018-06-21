@@ -3,7 +3,9 @@
         <?=
         \humhub\modules\onlydocuments\widgets\EditorWidget::widget([
             'file' => $file,
-            'mode' => $mode
+            'mode' => $mode,
+            'fullscreen' => $fullscreen,
+            'mobile' => $mobile,
         ]);
         ?>
     </div>

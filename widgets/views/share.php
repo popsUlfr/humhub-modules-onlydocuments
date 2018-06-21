@@ -3,6 +3,7 @@
 use humhub\libs\Html;
 use humhub\widgets\ModalDialog;
 
+\humhub\modules\onlydocuments\assets\Assets::register($this);
 if (class_exists('humhub\assets\ClipboardJsAsset')) {
     humhub\assets\ClipboardJsAsset::register($this);
 }

@@ -18,6 +18,30 @@ class OpenController extends BaseFileController
 {
 
     /**
+     * @var boolean fullscreen
+     */
+    public $fullscreen;
+
+    /**
+     * @var boolean mobile
+     */
+    public $mobile;
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        $this->fullscreen = filter_var(
+            Yii::$app->request->get('fullscreen', false),
+            FILTER_VALIDATE_BOOLEAN);
+        $this->mobile = filter_var(
+            Yii::$app->request->get('mobile', false),
+            FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
      * Opens the document in modal
      * 
      * @return string
@@ -26,12 +50,21 @@ class OpenController extends BaseFileController
     public function actionIndex()
     {
         if (!Yii::$app->request->isAjax) {
-            return $this->redirectToModal();
+            //return $this->redirectToModal();
+            $this->fullscreen = true;
+            return $this->render('fullscreen', [
+                        'file' => $this->file,
+                        'mode' => $this->mode,
+                        'fullscreen' => $this->fullscreen,
+                        'mobile' => $this->mobile,
+            ]);
         }
 
-        return $this->renderAjax('index', [
+        return $this->renderAjax(($this->fullscreen)?'fullscreen':'index', [
                     'file' => $this->file,
-                    'mode' => $this->mode
+                    'mode' => $this->mode,
+                    'fullscreen' => $this->fullscreen,
+                    'mobile' => $this->mobile,
         ]);
     }
 
@@ -60,9 +93,16 @@ class OpenController extends BaseFileController
         }
 
         if ($this->shareSecret) {
-            $openUrl = Url::to(['/onlydocuments/open', 'share' => $this->shareSecret]);
+            $openUrl = Url::to(['/onlydocuments/open',
+                'share' => $this->shareSecret,
+                'fullscreen' => $this->fullscreen,
+                'mobile' => $this->mobile,]);
         } else {
-            $openUrl = Url::to(['/onlydocuments/open', 'guid' => $this->file->guid, 'mode' => $this->mode]);
+            $openUrl = Url::to(['/onlydocuments/open',
+                'guid' => $this->file->guid,
+                'mode' => $this->mode,
+                'fullscreen' => $this->fullscreen,
+                'mobile' => $this->mobile,]);
         }
 
         $jsCode = 'var modalOO = humhub.require("ui.modal"); modalOO.get("#onlydocuments-modal").load("' . $openUrl . '");';

@@ -29,10 +29,12 @@ class EditFileHandler extends BaseFileHandler
     {
         return [
             'label' => Yii::t('FileModule.base', 'Edit document'),
-            'data-action-url' => Url::to(['/onlydocuments/open', 'guid' => $this->file->guid, 'mode' => Module::OPEN_MODE_EDIT]),
-            'data-action-click' => 'ui.modal.load',
-            'data-modal-id' => 'onlydocuments-modal',
-            'data-modal-close' => ''
+            'href' => Url::to(['/onlydocuments/open',
+                'guid' => $this->file->guid,
+                'mode' => Module::OPEN_MODE_EDIT,
+                'fullscreen' => true,
+                'mobile' => (new \Mobile_Detect())->isMobile()]),
+            'target' => '_blank',
         ];
     }
 

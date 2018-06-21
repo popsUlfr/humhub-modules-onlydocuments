@@ -52,8 +52,14 @@ class Module extends \humhub\components\Module
      */
     public $textExtensions = ['docx', 'doc', 'odt', 'rtf', 'txt', 'html', 'htm', 'mht', 'pdf', 'djvu', 'fb2', 'epub', 'xps'];
 
-    
-    
+    /**
+     * @inheritDoc
+     */
+    public function init()
+    {
+        parent::init();
+        require_once Yii::getAlias('@onlydocuments/vendor/autoload.php');
+    }
     
     public function getServerUrl()
     {

@@ -21,21 +21,21 @@ humhub.module('onlydocuments', function (module, require, $) {
     };
 
     Editor.prototype.init = function () {
-        
+
         if (this.options.moduleConfigured != 1) {
             module.log.error('No OnlyOffice server configured! - Check OnlyDocuments module configuration!', true);
             return
         }
-        
+
         this.initEditor();
-        
+
         this.modal = modal.get('#onlydocuments-modal');
-        
+
         var that = this;
         this.modal.$.on('hidden.bs.modal', function(evt) {
             that.modal.clear();
         });
-        
+
     };
 
 
@@ -66,8 +66,8 @@ humhub.module('onlydocuments', function (module, require, $) {
             this.modal.close();
             evt.finish();
         }
-        
-        
+
+
     }
 
     Editor.prototype.initEditor = function () {
@@ -81,12 +81,12 @@ humhub.module('onlydocuments', function (module, require, $) {
                 return;
             }
         }
-        
+
         this.docEditor = new DocsAPI.DocEditor('iframeContainer', {
             width: "100%",
             height: "100%",
 
-            type: "desktop", // embedded 
+            type: (this.options.mobile)?"mobile":"desktop", // embedded
             documentType: this.options.documentType,
             document: {
                 title: this.options.fileName,

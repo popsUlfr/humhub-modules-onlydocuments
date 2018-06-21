@@ -35,6 +35,16 @@ class EditorWidget extends JsWidget
     public $mode;
 
     /**
+     * @var boolean fullscreen
+     */
+    public $fullscreen;
+
+    /**
+     * @var boolean mobile
+     */
+    public $mobile;
+
+    /**
      * @inheritdoc
      */
     public $jsWidget = 'onlydocuments.Editor';
@@ -88,6 +98,8 @@ class EditorWidget extends JsWidget
             'edit-mode' => $this->mode,
             'file-info-url' => Url::to(['/onlydocuments/open/get-info', 'guid' => $this->file->guid]),
             'module-configured' => (empty($module->getServerUrl()) ? '0' : '1'),
+            'fullscreen' => $this->fullscreen,
+            'mobile' => $this->mobile
         ];
     }
 
@@ -106,10 +118,12 @@ class EditorWidget extends JsWidget
      */
     public function run()
     {
-        return $this->render('editor', [
+        return $this->render(($this->fullscreen)?'editor-fullscreen':'editor', [
                     'documentType' => $this->documentType,
                     'file' => $this->file,
                     'mode' => $this->mode,
+                    'fullscreen' => $this->fullscreen,
+                    'mobile' => $this->mobile,
                     'options' => $this->getOptions(),
         ]);
     }

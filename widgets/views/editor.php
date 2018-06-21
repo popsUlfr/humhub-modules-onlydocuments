@@ -25,6 +25,16 @@ if ($documentType === Module::DOCUMENT_TYPE_SPREADSHEET) {
 <?= Html::beginTag('div', $options) ?>
 <div style = "height:50px; border-radius: 8px 8px 0px 0px; background-color:<?= $headerBackgroundColor; ?>; padding-top:6px; padding-right:12px">
     <div class = "pull-right" style = "margin-top:8px;margin-right:12px">
+        <?= Html::a('Fullscreen', Url::to(['/onlydocuments/open',
+            'guid' => $file->guid,
+            'mode' => $mode,
+            'fullscreen' => true,
+            'mobile' => $mobile]), ['class' => 'btn btn-default', 'target' => '_parent']); ?>
+        <?= Html::a(($mobile)?'Desktop':'Mobile', Url::to(['/onlydocuments/open',
+            'guid' => $file->guid,
+            'mode' => $mode,
+            'fullscreen' => $fullscreen,
+            'mobile' => !$mobile]), ['class' => 'btn btn-default', 'target' => '_parent']); ?>
         <?php if ($mode === Module::OPEN_MODE_EDIT && !Yii::$app->user->isGuest): ?>
             <?= humhub\libs\Html::a('Share', '#', ['class' => 'btn btn btn-default', 'data-action-click' => 'share', 'data-action-block' => 'sync', 'data-action-url' => Url::to(['/onlydocuments/share', 'guid' => $file->guid, 'mode' => $mode])]); ?>
         <?php endif; ?>
