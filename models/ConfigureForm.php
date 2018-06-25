@@ -12,6 +12,7 @@ class ConfigureForm extends \yii\base\Model
 {
 
     public $serverUrl;
+    public $templates;
 
     /**
      * @inheritdoc
@@ -20,6 +21,7 @@ class ConfigureForm extends \yii\base\Model
     {
         return [
             ['serverUrl', 'string'],
+            ['templates', 'string', 'encoding' => 'UTF-8'],
         ];
     }
 
@@ -30,6 +32,7 @@ class ConfigureForm extends \yii\base\Model
     {
         return [
             'serverUrl' => Yii::t('OnlydocumentsModule.base', 'Hostname'),
+            'templates' => Yii::t('OnlydocumentsModule.base', 'Page templates'),
         ];
     }
     
@@ -40,12 +43,14 @@ class ConfigureForm extends \yii\base\Model
     {
         return [
             'serverUrl' => Yii::t('OnlydocumentsModule.base', 'e.g. http://documentserver'),
+            'templates' => Yii::t('OnlydocumentsModule.base', 'JSON format like {"docx": {"%file-uuid%": {"title":..., "description":...}, ...}, "pptx": {...}, "xlsx": {...}}'),
         ];
     }
 
     public function loadSettings()
     {
         $this->serverUrl = Yii::$app->getModule('onlydocuments')->settings->get('serverUrl');
+        $this->templates = Yii::$app->getModule('onlydocuments')->settings->get('templates', '{}');
 
         return true;
     }
@@ -53,6 +58,7 @@ class ConfigureForm extends \yii\base\Model
     public function save()
     {
         Yii::$app->getModule('onlydocuments')->settings->set('serverUrl', $this->serverUrl);
+        Yii::$app->getModule('onlydocuments')->settings->set('templates', $this->templates);
 
         return true;
     }

@@ -39,6 +39,15 @@ class CreateController extends \humhub\components\Controller
             throw new HttpException("Invalid document type!");
         }
 
+        $c_ext = substr($ext, 1);
+        $config = new \humhub\modules\onlydocuments\models\ConfigureForm();
+        $config->loadSettings();
+        $glob_templates = json_decode($config->templates, true);
+        $templates = [];
+        if (!empty($glob_templates) && isset($glob_templates[$c_ext])) {
+            $templates = $glob_templates[$c_ext];
+        }
+
         if ($model->load(Yii::$app->request->post())) {
 
             $file = $model->save();
@@ -53,12 +62,12 @@ class CreateController extends \humhub\components\Controller
             } else {
                 return $this->asJson([
                             'success' => false,
-                            'output' => $this->renderAjax('document', ['model' => $model, 'ext' => $ext])
+                            'output' => $this->renderAjax('document', ['model' => $model, 'ext' => $ext, 'templates' => $templates])
                 ]);
             }
         }
 
-        return $this->renderAjax('document', ['model' => $model, 'ext' => $ext]);
+        return $this->renderAjax('document', ['model' => $model, 'ext' => $ext, 'templates' => $templates]);
     }
 
     public function determineContentFileUrl($file)

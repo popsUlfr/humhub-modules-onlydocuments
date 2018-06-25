@@ -24,19 +24,22 @@ class CreateDocument extends Model
     public $documentType;
     public $fileName;
     public $openFlag = true;
+    public $template;
 
     public function rules()
     {
         return [
             ['fileName', 'required'],
             ['openFlag', 'boolean'],
+            ['template', 'string'],
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'openFlag' => Yii::t('OnlydocumentsModule.base', 'Open the new document in the next step')
+            'openFlag' => Yii::t('OnlydocumentsModule.base', 'Open the new document in the next step'),
+            'template' => Yii::t('OnlydocumentsModule.base', 'Sélectionner un modèle'),
         ];
     }
 
@@ -65,6 +68,13 @@ class CreateDocument extends Model
                 $source = $module->getAssetPath() . '/new.xlsx';
                 $newFile = $this->fileName . '.xlsx';
                 $mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+            }
+
+            if (!empty($this->template)) {
+                $tmpl_file = File::findOne(['guid' => $this->template]);
+                if (!empty($tmpl_file)) {
+                    $source = $tmpl_file->getStore()->get();
+                }
             }
 
             $file = new File();
