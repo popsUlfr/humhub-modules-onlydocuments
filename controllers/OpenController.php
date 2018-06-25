@@ -34,10 +34,10 @@ class OpenController extends BaseFileController
     {
         parent::init();
         $this->fullscreen = filter_var(
-            Yii::$app->request->get('fullscreen', false),
+            Yii::$app->request->get('fullscreen', true),
             FILTER_VALIDATE_BOOLEAN);
         $this->mobile = filter_var(
-            Yii::$app->request->get('mobile', false),
+            Yii::$app->request->get('mobile', (new \Mobile_Detect())->isMobile()),
             FILTER_VALIDATE_BOOLEAN);
     }
 
