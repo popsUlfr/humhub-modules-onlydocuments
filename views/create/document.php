@@ -7,6 +7,7 @@ use humhub\libs\Html;
 
 $real_templates = [];
 $form_templates = [0 => 'Sans modèle'];
+$default_template = 0;
 
 if (is_array($templates)) {
     $real_templates = array_filter(array_map(function ($info) {
@@ -15,6 +16,7 @@ if (is_array($templates)) {
         $ret = [
             'title' => '',
             'description' => '',
+            'default' => false,
         ];
         if (is_array($info)) {
             if (!isset($info['title']) || empty($info['title']))
@@ -22,12 +24,18 @@ if (is_array($templates)) {
             $ret['title'] = (string)$info['title'];
             if (isset($info['description']) && !empty($info['description']))
                 $ret['description'] = (string)$info['description'];
+            if (isset($info['default']) && $info['default'] === true)
+                $ret['default'] = true;
         }
         else {
             $ret['title'] = (string)$info;
         }
         return $ret;
     }, $templates), function ($info) { return !empty($info); });
+    foreach ($real_templates as $key => $info) {
+        if ($info['default'])
+            $default_template = $key;
+    }
     $form_templates = array_merge($form_templates, array_map(function ($info) {
         return $info['title'];
     }, $real_templates));
@@ -44,9 +52,9 @@ $modal = \humhub\widgets\ModalDialog::begin([
 
 <div class="modal-body">
     <?= $form->field($model, 'fileName', ['template' => '{label}<div class="input-group">{input}<div class="input-group-addon">' . $ext . '</div></div>{hint}{error}']); ?>
-    <?= $form->field($model, 'openFlag')->checkbox(); ?>
-    <?= $form->field($model, 'template')->dropDownList($form_templates); ?>
-    <p id="description" style="height: 4em; overflow: hidden;"></p>
+    <?= $form->field($model, 'openFlag')->checkbox(['style' => 'display:none']); ?>
+    <?= $form->field($model, 'template')->dropDownList($form_templates, ['options' => [$default_template => ['Selected'=>'selected']]]); ?>
+    <p id="description" style="height: 4em; overflow: hidden;"><?= (isset($real_templates[$default_template]))?$real_templates[$default_template]['description']:''; ?></p>
 </div>
 
 <div class="modal-footer">
