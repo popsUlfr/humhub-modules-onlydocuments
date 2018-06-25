@@ -4,9 +4,6 @@ use humhub\libs\Html;
 use humhub\widgets\ModalDialog;
 
 \humhub\modules\onlydocuments\assets\Assets::register($this);
-if (class_exists('humhub\assets\ClipboardJsAsset')) {
-    humhub\assets\ClipboardJsAsset::register($this);
-}
 ?>
 
 <?php $modal = ModalDialog::begin(['header' => Yii::t('OnlydocumentsModule.base', '<strong>Share</strong> document')]) ?>
@@ -23,8 +20,8 @@ if (class_exists('humhub\assets\ClipboardJsAsset')) {
         </label>
     </div>
     <div class="form-group viewLinkInput" style="margin-top:6px">
-        <input type="text" class="form-control" value="<?= $viewLink; ?>">
-        <p class="help-block pull-right"><a href="#" onClick="clipboard.copy($('.viewLinkInput').find('input').val())"><i class="fa fa-clipboard" aria-hidden="true"></i> <?= Yii::t('OnlydocumentsModule.base', 'Copy to clipboard'); ?></a></p>
+        <input type="text" class="form-control viewLinkInputTarget" value="<?= $viewLink; ?>" readonly>
+        <p class="help-block pull-right"><a href="#" data-action-click="copyToClipboard" data-action-target=".viewLinkInputTarget"><i class="fa fa-clipboard" aria-hidden="true"></i> <?= Yii::t('OnlydocumentsModule.base', 'Copy to clipboard'); ?></a></p>
     </div>
 
     <div class="checkbox" style="margin-left:-10px;padding-top:12px">
@@ -33,8 +30,8 @@ if (class_exists('humhub\assets\ClipboardJsAsset')) {
         </label>
     </div>
     <div class="form-group editLinkInput"  style="margin-top:6px">
-        <input type="text" class="form-control" value="<?= $editLink; ?>">
-        <p class="help-block  pull-right"><a href="#" onClick="clipboard.copy($('.editLinkInput').find('input').val())"><i class="fa fa-clipboard" aria-hidden="true"></i> <?= Yii::t('OnlydocumentsModule.base', 'Copy to clipboard'); ?></a></p>
+        <input type="text" class="form-control editLinkInputTarget" value="<?= $editLink; ?>" readonly>
+        <p class="help-block  pull-right"><a href="#" data-action-click="copyToClipboard" data-action-target=".editLinkInputTarget"><i class="fa fa-clipboard" aria-hidden="true"></i> <?= Yii::t('OnlydocumentsModule.base', 'Copy to clipboard'); ?></a></p>
     </div>
 
 </div>
