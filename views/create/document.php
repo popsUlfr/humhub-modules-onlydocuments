@@ -59,6 +59,9 @@ $modal = \humhub\widgets\ModalDialog::begin([
 <script>
 $(document).ready(function () {
     var templates = JSON.parse('<?= json_encode($real_templates); ?>');
+    $('input[id="createdocument-filename"]').change(function () {
+        $(this).removeData('template');
+    });
     $('select[id="createdocument-template"]').change(function () {
         var value = $('select[id="createdocument-template"] > option:selected').val();
         var desc = $('#description');
@@ -67,6 +70,24 @@ $(document).ready(function () {
         }
         else {
             desc.text('');
+        }
+        var titleEl = $('input[id="createdocument-filename"]');
+        if (titleEl.length) {
+            var title = templates[value] && templates[value].title;
+            if (titleEl.data('template')) {
+                if (title) {
+                    titleEl.val(title);
+                    titleEl.data('template', value);
+                }
+                else {
+                    titleEl.val(null);
+                    titleEl.removeData('template');
+                }
+            }
+            else if ((!titleEl.val() || !titleEl.val().length) && title) {
+                titleEl.val(title);
+                titleEl.data('template', value);
+            }
         }
     });
 });
