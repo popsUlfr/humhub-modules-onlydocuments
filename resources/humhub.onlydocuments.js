@@ -241,7 +241,7 @@ humhub.module('onlydocuments', function (module, require, $) {
             m.$.find('.modal-body :input').attr('disabled', true);
             //if (response.openFlag) {
                 var but = m.$.find('button[data-action-click="onlydocuments.createSubmit"]');
-                var el = $('<a>').attr('class', but.attr('class')).attr('href', response.openUrl).attr('target', '_blank').text('Ouvrir');
+                var el = $('<a>').attr('class', but.attr('class')).attr('href', response.openUrl).attr('target', '_blank').text('Ouvrir le nouveau document');
                 but.replaceWith(el);
                 //m.load(response.openUrl);
                 //m.show();

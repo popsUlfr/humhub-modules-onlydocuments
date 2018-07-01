@@ -44,7 +44,8 @@ if (is_array($templates)) {
 \humhub\modules\onlydocuments\assets\Assets::register($this);
 
 $modal = \humhub\widgets\ModalDialog::begin([
-            'header' => Yii::t('OnlydocumentsModule.base', '<strong>Create</strong> document')
+            'header' => Yii::t('OnlydocumentsModule.base', '<strong>Create</strong> document'),
+            'showClose' => false
         ])
 ?>
 
@@ -58,7 +59,8 @@ $modal = \humhub\widgets\ModalDialog::begin([
 </div>
 
 <div class="modal-footer">
-    <?= Html::submitButton('Save', ['data-action-click' => 'onlydocuments.createSubmit', 'data-ui-loader' => '', 'class' => 'btn btn-primary']); ?>
+    <?= Html::button('Fermer', ['data-modal-close' => '', 'class' => 'btn btn-default']); ?>
+    <?= Html::submitButton('Créer', ['data-action-click' => 'onlydocuments.createSubmit', 'data-ui-loader' => '', 'class' => 'btn btn-primary']); ?>
 </div>
 
 <?php ActiveForm::end(); ?>
