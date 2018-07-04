@@ -68,7 +68,7 @@ $modal = \humhub\widgets\ModalDialog::begin([
 <?php \humhub\widgets\ModalDialog::end(); ?>
 <script>
 $(document).ready(function () {
-    var templates = JSON.parse('<?= json_encode($real_templates); ?>');
+    var templates = <?= json_encode($real_templates); ?>;
     $('input[id="createdocument-filename"]').change(function () {
         $(this).removeData('template');
     });
